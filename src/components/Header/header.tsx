@@ -36,6 +36,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ ...props }) => {
   const theme = useTheme();
   const [animateTabs, setAnimateTabs] = React.useState(false);
+  let animateTimeout = 550;
 
   const [drawerOpen, setDrawerOpen] = React.useState(false);
   const [expandableDrawerItemOpen, setExpandableDrawerItemOpen] =
@@ -88,18 +89,16 @@ const Header: React.FC<HeaderProps> = ({ ...props }) => {
             onClick={() => {
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}
+            sx={{
+              p: 0,
+            }}
           >
             <Image
-              className={styles.logo}
-              src="/next.svg"
+              src="mainlogo.svg"
               alt="logo"
-              width={100}
-              height={40}
-              style={{
-                marginTop: theme.spacing(1),
-                marginBottom: theme.spacing(1),
-                objectFit: "contain",
-              }}
+              width={50}
+              height={35}
+              priority
             />
           </IconButton>
         )}
@@ -151,89 +150,97 @@ const Header: React.FC<HeaderProps> = ({ ...props }) => {
           id="tabs-container"
           ref={containerRef}
         >
-          <Slide
-            in={props.animate ? animateTabs : true}
-            direction="up"
-            container={containerRef.current}
-            timeout={props.animate ? 1000 : 0}
+          <Tabs
+            value={false}
+            onChange={props.handleTabChange}
+            TabIndicatorProps={{
+              style: {
+                backgroundColor: "transparent",
+              },
+            }}
           >
-            <Tabs
-              value={false}
-              onChange={props.handleTabChange}
-              TabIndicatorProps={{
-                style: {
-                  backgroundColor: "transparent",
-                },
-              }}
-            >
-              {props.tabs?.map((tab, index) => (
-                <Tab
+            {props.tabs?.map((tab, index) => {
+              //animateTimeout += 200;
+              return (
+                <Slide
                   key={index}
-                  label={tab.name}
-                  onClick={(e) => {
-                    tab.subTabs && tab.subTabs.length > 0
-                      ? handleExpandableTabClick(e)
-                      : tab.onClick && tab.onClick(e as any);
-                  }}
-                  sx={{
-                    textTransform: "none",
-                  }}
-                />
-              ))}
-              {props.tabs?.map((navTab, index) => (
-                <Popover
-                  key={`popover-${index}`}
-                  disableScrollLock
-                  open={popoverOpen}
-                  anchorEl={anchorEl}
-                  onClose={handleExpandableTabClose}
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "center",
-                  }}
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "center",
-                  }}
-                  PaperProps={{
-                    sx: {
-                      borderRadius: 1,
-                      border: 1,
-                    },
+                  in={props.animate ? animateTabs : true}
+                  direction="up"
+                  container={containerRef.current}
+                  timeout={750}
+                  style={{
+                    transitionDelay: `${animateTimeout.toString()}ms`,
                   }}
                 >
-                  <List>
-                    {navTab.subTabs &&
-                      navTab.subTabs.length > 0 &&
-                      navTab.subTabs.map((subTab, index) => (
-                        <ListItem key={index} disablePadding>
-                          <ListItemButton
-                            sx={{
-                              whiteSpace: "nowrap",
-                              "&:hover": {
-                                color: "primary.main",
-                                borderColor: "none",
-                              },
+                  <Tab
+                    label={tab.name}
+                    onClick={(e) => {
+                      tab.subTabs && tab.subTabs.length > 0
+                        ? handleExpandableTabClick(e)
+                        : tab.onClick && tab.onClick(e as any);
+                    }}
+                    sx={{
+                      textTransform: "none",
+                      color: theme.palette.text.primary,
+                      fontFamily: theme.typography.body2.fontFamily,
+                    }}
+                  />
+                </Slide>
+              );
+            })}
+            {props.tabs?.map((navTab, index) => (
+              <Popover
+                key={`popover-${index}`}
+                disableScrollLock
+                open={popoverOpen}
+                anchorEl={anchorEl}
+                onClose={handleExpandableTabClose}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "center",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "center",
+                }}
+                PaperProps={{
+                  sx: {
+                    borderRadius: 1,
+                    border: 1,
+                  },
+                }}
+              >
+                <List>
+                  {navTab.subTabs &&
+                    navTab.subTabs.length > 0 &&
+                    navTab.subTabs.map((subTab, index) => (
+                      <ListItem key={index} disablePadding>
+                        <ListItemButton
+                          sx={{
+                            whiteSpace: "nowrap",
+                            "&:hover": {
+                              color: "primary.main",
+                              borderColor: "none",
+                            },
+                          }}
+                          onClick={(e) => {
+                            subTab.onClick && subTab.onClick(e as any);
+                            handleExpandableTabClose();
+                          }}
+                        >
+                          <ListItemText
+                            primary={subTab.name}
+                            primaryTypographyProps={{
+                              textAlign: "center",
                             }}
-                            onClick={(e) => {
-                              subTab.onClick && subTab.onClick(e as any);
-                              handleExpandableTabClose();
-                            }}
-                          >
-                            <ListItemText
-                              primary={subTab.name}
-                              primaryTypographyProps={{
-                                textAlign: "center",
-                              }}
-                            />
-                          </ListItemButton>
-                        </ListItem>
-                      ))}
-                  </List>
-                </Popover>
-              ))}
-            </Tabs>
-          </Slide>
+                          />
+                        </ListItemButton>
+                      </ListItem>
+                    ))}
+                </List>
+              </Popover>
+            ))}
+          </Tabs>
         </Box>
       </Toolbar>
     </>

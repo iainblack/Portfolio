@@ -10,5 +10,7 @@ export const ContentPanelContainer = styled(Box, {
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  backgroundColor: odd ? "grey" : theme.palette.background.default,
+  backgroundColor: odd
+    ? theme.palette.background.paper
+    : theme.palette.background.default,
 }));

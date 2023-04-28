@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { Inter } from "next/font/google";
-import { AppBar, Box, CssBaseline, ThemeProvider } from "@mui/material";
-import theme from "@/Theme";
+import { AppBar, Box, CssBaseline, styled, ThemeProvider } from "@mui/material";
+import AllThemes, { defaultTheme } from "@/Theme";
 import styles from "@/styles/Home.module.css";
 import TitlePanel from "@/components/TitlePanel/TitlePanel";
 import React, { useState, useEffect } from "react";
@@ -10,6 +10,9 @@ import { useRouter } from "next/router";
 import { HideOnScroll } from "@/components/Utils/utils";
 import Header, { DynamicTab } from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
+import ThemeSelectDialog from "@/components/ThemeSelection/ThemeSelectDialog";
+import OverviewPanel from "@/components/OverviewPanel/OverviewPanel";
+import ContactDialog from "@/components/ContactDialog";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,64 +33,74 @@ export default function Home() {
   const router = useRouter();
   const [appBarState, setAppBarState] = useState<AppBarState>({
     transparent: true,
-    elevated: false,
-    logo: false,
+    elevated: true,
+    logo: true,
     display: true,
   });
+  const [currentTheme, setCurrentTheme] = React.useState(defaultTheme);
+  const [themeDialogOpen, setThemeDialogOpen] = React.useState(false);
+  const [contactDialogOpen, setContactDialogOpen] = React.useState(false);
 
   const [transitionState, setTransitionState] = useState<TransitionState>({
     transitionInOne: false,
     transitionInTwo: false,
     transitionInThree: false,
   });
+  const handleClose = () => {
+    setThemeDialogOpen(false);
+  };
 
-  const refOne = React.useRef<HTMLDivElement>(null);
-  const refTwo = React.useRef<HTMLDivElement>(null);
-  const refThree = React.useRef<HTMLDivElement>(null);
+  const openThemeDialog = () => {
+    setThemeDialogOpen(true);
+  };
+
+  const aboutMeRef = React.useRef<HTMLDivElement>(null);
+  const experienceRef = React.useRef<HTMLDivElement>(null);
+  const portfolioRef = React.useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
 
       // appBarState manipulation
-      if (window.visualViewport?.height && scrollPosition < 1) {
-        setAppBarState({
-          transparent: true,
-          elevated: false,
-          logo: false,
-          display: true,
-        });
-      } else if (
-        window.visualViewport?.height &&
-        scrollPosition > 5 &&
-        scrollPosition < window.visualViewport?.height
-      ) {
-        setAppBarState({
-          ...appBarState,
-          elevated: true,
-          transparent: false,
-          display: false,
-        });
-      } else if (
-        window.visualViewport?.height &&
-        scrollPosition > window.visualViewport?.height
-      ) {
-        setAppBarState({
-          ...appBarState,
-          logo: true,
-          display: true,
-        });
-      }
+      // if (window.visualViewport?.height && scrollPosition < 1) {
+      //   setAppBarState({
+      //     transparent: true,
+      //     elevated: true,
+      //     logo: false,
+      //     display: true,
+      //   });
+      // } else if (
+      //   window.visualViewport?.height &&
+      //   scrollPosition > 5 &&
+      //   scrollPosition < window.visualViewport?.height
+      // ) {
+      //   setAppBarState({
+      //     ...appBarState,
+      //     elevated: true,
+      //     transparent: false,
+      //     display: false,
+      //   });
+      // } else if (
+      //   window.visualViewport?.height &&
+      //   scrollPosition > window.visualViewport?.height
+      // ) {
+      //   setAppBarState({
+      //     ...appBarState,
+      //     logo: true,
+      //     display: true,
+      //   });
+      // }
 
       // Panel transitions
-      const refOneTop = refOne.current?.offsetTop;
-      const refTwoTop = refTwo.current?.offsetTop;
-      const refThreeTop = refThree.current?.offsetTop;
+      const aboutMeTop = aboutMeRef.current?.offsetTop;
+      const experienceTop = experienceRef.current?.offsetTop;
+      const portfolioTop = portfolioRef.current?.offsetTop;
 
       if (
-        refOneTop &&
+        aboutMeTop &&
         !transitionState.transitionInOne &&
-        scrollPosition > refOneTop - 500
+        scrollPosition > aboutMeTop - 500
       ) {
         setTransitionState({
           ...transitionState,
@@ -95,9 +108,9 @@ export default function Home() {
         });
       }
       if (
-        refTwoTop &&
+        experienceTop &&
         !transitionState.transitionInTwo &&
-        scrollPosition > refTwoTop - 500
+        scrollPosition > experienceTop - 500
       ) {
         setTransitionState({
           ...transitionState,
@@ -105,9 +118,9 @@ export default function Home() {
         });
       }
       if (
-        refThreeTop &&
+        portfolioTop &&
         !transitionState.transitionInThree &&
-        scrollPosition > refThreeTop - 500
+        scrollPosition > portfolioTop - 500
       ) {
         setTransitionState({
           ...transitionState,
@@ -124,128 +137,116 @@ export default function Home() {
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     switch (newValue) {
       case 0:
-        refOne.current &&
-          refOne.current.scrollIntoView({
+        aboutMeRef.current &&
+          aboutMeRef.current.scrollIntoView({
             behavior: "smooth",
             block: "start",
           });
         break;
       case 1:
-        refTwo.current &&
-          refTwo.current.scrollIntoView({
+        experienceRef.current &&
+          experienceRef.current.scrollIntoView({
             behavior: "smooth",
             block: "start",
           });
         break;
       case 2:
-        refThree.current &&
-          refThree.current.scrollIntoView({
+        portfolioRef.current &&
+          portfolioRef.current.scrollIntoView({
             behavior: "smooth",
             block: "start",
           });
         break;
-      default:
     }
   };
 
+  const mapPresetTheme = (newThemeName: string) => {
+    AllThemes.find((theme) => {
+      if (theme.name === newThemeName) {
+        setCurrentTheme(theme);
+      }
+    });
+  };
   // create tabs for header and drawer
   const tabs: DynamicTab[] = [
     {
-      name: "Scroll to One",
+      name: "About Me",
     },
     {
-      name: "Scroll to Two",
+      name: "Experience",
     },
     {
-      name: "Scroll to Three",
+      name: "Projects",
     },
     {
-      name: "Internal Route",
-      onClick: (event) => {
-        router.push("/navExample");
+      name: "Contact",
+      onClick: () => {
+        setContactDialogOpen(true);
       },
-    },
-    {
-      name: "External Route",
-      external: true,
-      onClick: (event) => {
-        window.open("https://www.google.com", "_blank");
-      },
-    },
-    {
-      name: "Expandable Nav Tab",
-      onClick: (event) => {
-        console.log("contact clicked");
-      },
-      subTabs: [
-        {
-          name: "External",
-          external: true,
-          onClick: (event) => {
-            window.open("https://www.google.com", "_blank");
-          },
-        },
-        {
-          name: "Internal",
-          onClick: (event) => {
-            router.push("/navExample");
-          },
-        },
-      ],
     },
   ];
 
+  const Offset = styled("div")(({ theme }) => theme.mixins.toolbar);
+
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={currentTheme.theme}>
       <CssBaseline />
       <Head>
-        <title>Template</title>
+        <title>iainblack.dev</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={`${inter.className}`}>
-        <HideOnScroll>
-          <AppBar
-            position="fixed"
-            enableColorOnDark
-            color="transparent"
-            elevation={appBarState.elevated ? 4 : 0}
-            sx={{
-              display: appBarState.display ? "flex" : "none",
-              backdropFilter: "blur(5px)",
-              pl: { xs: 2, md: 6 },
-              pr: 2,
-            }}
-          >
-            <Header
-              tabs={tabs}
-              handleTabChange={handleTabChange}
-              logo={appBarState.logo}
-              animate
-            />
-          </AppBar>
-        </HideOnScroll>
-        <TitlePanel />
-        <Box ref={refOne}>
+      <main>
+        <AppBar
+          position="fixed"
+          enableColorOnDark
+          color="transparent"
+          sx={{
+            backdropFilter: "blur(5px)",
+            px: { xs: 4, sm: 4, md: 12 },
+          }}
+        >
+          <Header
+            tabs={tabs}
+            handleTabChange={handleTabChange}
+            logo={appBarState.logo}
+            animate
+          />
+        </AppBar>
+        <Offset />
+        <OverviewPanel openThemeDialog={openThemeDialog} />
+        <Box ref={aboutMeRef}>
           <ContentPanel
+            odd
             iterator={1}
             transitionIn={transitionState.transitionInOne}
           />
         </Box>
-        <Box ref={refTwo}>
+        <Box ref={experienceRef}>
           <ContentPanel
             iterator={2}
-            odd
             transitionIn={transitionState.transitionInTwo}
           />
         </Box>
-        <Box ref={refThree}>
+        <Box ref={portfolioRef}>
           <ContentPanel
             iterator={3}
+            odd
             transitionIn={transitionState.transitionInThree}
           />
         </Box>
         <Footer odd={true} />
+        <ThemeSelectDialog
+          open={themeDialogOpen}
+          onClose={handleClose}
+          selectPresetTheme={mapPresetTheme}
+          currentThemeName={currentTheme.name}
+          setCurrentTheme={setCurrentTheme}
+        />
+        <ContactDialog
+          open={contactDialogOpen}
+          onClose={() => setContactDialogOpen(false)}
+        />
       </main>
     </ThemeProvider>
   );
