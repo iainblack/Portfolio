@@ -37,8 +37,9 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ ...props }) => {
   const theme = useTheme();
-  let animateTimeout = 550;
+  let animateTimeout = 0;
 
+  const [animateIn, setAnimateIn] = React.useState(false);
   const [drawerOpen, setDrawerOpen] = React.useState(false);
   const [expandableDrawerItemOpen, setExpandableDrawerItemOpen] =
     React.useState(false);
@@ -72,6 +73,12 @@ const Header: React.FC<HeaderProps> = ({ ...props }) => {
       scrollAfterDrawerClose.current = undefined;
     }
   }, [drawerOpen]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setAnimateIn(true);
+    }, 0);
+  }, []);
 
   return (
     <>
@@ -133,7 +140,7 @@ const Header: React.FC<HeaderProps> = ({ ...props }) => {
         <Box
           sx={{
             flexGrow: 1,
-            display: { xs: "none", lg: "flex" },
+            display: { xs: "none", lg: animateIn ? "flex" : "none" },
             overflow: "hidden",
             justifyContent: "right",
           }}
@@ -156,8 +163,11 @@ const Header: React.FC<HeaderProps> = ({ ...props }) => {
                 <Slide
                   key={index}
                   direction="up"
-                  in={true}
-                  {...{ timeout: animateTimeout }}
+                  in={animateIn}
+                  timeout={750}
+                  style={{
+                    transitionDelay: `${animateTimeout}ms`,
+                  }}
                   container={containerRef.current}
                 >
                   <Tab
@@ -179,8 +189,11 @@ const Header: React.FC<HeaderProps> = ({ ...props }) => {
           </Tabs>
           <Slide
             direction="up"
-            in={true}
-            {...{ timeout: animateTimeout + 200 }}
+            in={animateIn}
+            timeout={400}
+            style={{
+              transitionDelay: `${animateTimeout + 700}ms`,
+            }}
             container={containerRef.current}
           >
             <Button

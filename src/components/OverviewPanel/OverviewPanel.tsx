@@ -24,7 +24,7 @@ export default function OverviewPanel(props: OverviewPanelProps) {
   useEffect(() => {
     setTimeout(() => {
       setAnimate(true);
-    }, 1000);
+    }, 1200);
   }, []);
 
   return (
