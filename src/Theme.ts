@@ -54,13 +54,13 @@ export const defaultTheme: ThemeObject = {
         },
       },
       body1: {
-        fontSize: "1.5rem",
+        fontSize: "1.25rem",
         "@media (max-width:600px)": {
           fontSize: "1rem",
         },
       },
       body2: {
-        fontSize: "1.5rem",
+        fontSize: "1.25rem",
         fontFamily: technoFont,
         "@media (max-width:600px)": {
           fontSize: "1rem",

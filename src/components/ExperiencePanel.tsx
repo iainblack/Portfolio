@@ -1,7 +1,16 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { Fade, Tab, Tabs, Theme, useMediaQuery, useTheme } from "@mui/material";
+import {
+  Fade,
+  Slide,
+  Tab,
+  Tabs,
+  Theme,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
+import { PanelContainer } from "./Utils/styles";
 
 const exp = [
   {
@@ -24,6 +33,7 @@ const exp = [
 
 interface ExperiencePanelProps {
   transitionIn: boolean;
+  odd?: boolean;
 }
 
 export default function ExperiencePanel(props: ExperiencePanelProps) {
@@ -31,98 +41,99 @@ export default function ExperiencePanel(props: ExperiencePanelProps) {
   const isSmallScreen = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down("sm")
   );
+  const containerRef = React.useRef<HTMLDivElement>(null);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
   return (
-    <Fade
-      in={props.transitionIn}
-      {...{ timeout: 2500 }}
-      style={{ transitionDelay: "500ms" }}
-    >
-      <Box>
-        <Typography
-          variant="h4"
-          sx={{ mb: 5, textAlign: isSmallScreen ? "center" : "left" }}
-        >
-          My Experience
-        </Typography>
-        <Box sx={{ display: isSmallScreen ? "block" : "flex" }}>
-          <Tabs
-            orientation={isSmallScreen ? "horizontal" : "vertical"}
-            variant={isSmallScreen ? "fullWidth" : "standard"}
-            value={value}
-            onChange={handleChange}
-            TabIndicatorProps={{ sx: { left: 0 } }}
-            sx={{
-              borderLeft: isSmallScreen ? 0 : 1,
-              borderColor: "divider",
-              mb: isSmallScreen ? 2 : 0,
-            }}
+    <PanelContainer odd={props.odd}>
+      <Fade
+        in={props.transitionIn === undefined ? true : props.transitionIn}
+        timeout={4000}
+      >
+        <Box ref={containerRef}>
+          <Slide
+            in={props.transitionIn === undefined ? true : props.transitionIn}
+            timeout={1000}
+            direction={"up"}
+            container={containerRef.current}
           >
-            <Tab
-              label="Freelance"
-              sx={{ textTransform: "none", textAlign: "left" }}
-            />
-            <Tab
-              label="Juno"
-              sx={{ textTransform: "none", textAlign: "left" }}
-            />
-            <Tab label="Verint" sx={{ textTransform: "none" }} />
-          </Tabs>
-
-          <TabPanel value={value} index={0}>
-            <Typography variant="h5">Freelance Developer</Typography>
-            <Typography variant="body2" sx={{ mb: 2, color: "text.secondary" }}>
-              March 2023 - Present
-            </Typography>
-            <Typography variant="body1" sx={{ maxWidth: 500 }}>
-              Developed a mobile responsive website for a popular Italian
-              restaurant in Spokane, WA. Used React, Next.js, Material-UI,
-              Google Maps API, and Firebase.
-            </Typography>
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            <Typography variant="h5">Senior Software Engineer</Typography>
-            <Typography variant="body2" sx={{ mb: 2, color: "text.secondary" }}>
-              September 2022 - March 2023
-            </Typography>
-            <Typography variant="body1" sx={{ maxWidth: 500, mb: 1 }}>
-              {exp[1].description}
-            </Typography>
-            <Typography variant="body1" sx={{ maxWidth: 500, mb: 1 }}>
-              {exp[1].description2}
-            </Typography>
-            <Typography variant="body1" sx={{ maxWidth: 500, mb: 1 }}>
-              {exp[1].description3}
-            </Typography>
-            <Typography variant="body1" sx={{ maxWidth: 500 }}>
-              {exp[1].description4}
-            </Typography>
-          </TabPanel>
-          <TabPanel value={value} index={2}>
-            <Typography variant="h5">Software Engineer</Typography>
-            <Typography variant="body2" sx={{ mb: 2, color: "text.secondary" }}>
-              January 2020 - September 2022
-            </Typography>
-            <Typography variant="body1" sx={{ maxWidth: 500, mb: 1 }}>
-              {exp[0].description}
-            </Typography>
-            <Typography variant="body1" sx={{ maxWidth: 500, mb: 1 }}>
-              {exp[0].description2}
-            </Typography>
-            <Typography variant="body1" sx={{ maxWidth: 500, mb: 1 }}>
-              {exp[0].description3}
-            </Typography>
-            <Typography variant="body1" sx={{ maxWidth: 500 }}>
-              {exp[0].description4}
-            </Typography>
-          </TabPanel>
+            <Box>
+              <Typography
+                variant="h4"
+                sx={{ mb: 5, textAlign: isSmallScreen ? "center" : "left" }}
+              >
+                My Experience
+              </Typography>
+              <Box sx={{ display: isSmallScreen ? "block" : "flex" }}>
+                <Tabs
+                  orientation={isSmallScreen ? "horizontal" : "vertical"}
+                  variant={isSmallScreen ? "fullWidth" : "standard"}
+                  value={value}
+                  onChange={handleChange}
+                  TabIndicatorProps={{ sx: { left: 0 } }}
+                  sx={{
+                    borderLeft: isSmallScreen ? 0 : 1,
+                    borderColor: "divider",
+                    mb: isSmallScreen ? 2 : 0,
+                  }}
+                >
+                  <Tab
+                    label="Juno"
+                    sx={{ textTransform: "none", textAlign: "left" }}
+                  />
+                  <Tab label="Verint" sx={{ textTransform: "none" }} />
+                </Tabs>
+                <TabPanel value={value} index={0}>
+                  <Typography variant="h5">Senior Software Engineer</Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{ mb: 2, color: "text.secondary" }}
+                  >
+                    September 2022 - March 2023
+                  </Typography>
+                  <Typography variant="body1" sx={{ maxWidth: 800, mb: 1 }}>
+                    {exp[1].description}
+                  </Typography>
+                  <Typography variant="body1" sx={{ maxWidth: 800, mb: 1 }}>
+                    {exp[1].description2}
+                  </Typography>
+                  <Typography variant="body1" sx={{ maxWidth: 800, mb: 1 }}>
+                    {exp[1].description3}
+                  </Typography>
+                  <Typography variant="body1" sx={{ maxWidth: 800 }}>
+                    {exp[1].description4}
+                  </Typography>
+                </TabPanel>
+                <TabPanel value={value} index={1}>
+                  <Typography variant="h5">Software Engineer</Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{ mb: 2, color: "text.secondary" }}
+                  >
+                    January 2020 - September 2022
+                  </Typography>
+                  <Typography variant="body1" sx={{ maxWidth: 800, mb: 1 }}>
+                    {exp[0].description}
+                  </Typography>
+                  <Typography variant="body1" sx={{ maxWidth: 800, mb: 1 }}>
+                    {exp[0].description2}
+                  </Typography>
+                  <Typography variant="body1" sx={{ maxWidth: 800, mb: 1 }}>
+                    {exp[0].description3}
+                  </Typography>
+                  <Typography variant="body1" sx={{ maxWidth: 800 }}>
+                    {exp[0].description4}
+                  </Typography>
+                </TabPanel>
+              </Box>
+            </Box>
+          </Slide>
         </Box>
-      </Box>
-    </Fade>
+      </Fade>
+    </PanelContainer>
   );
 }
 

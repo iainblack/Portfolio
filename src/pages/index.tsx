@@ -2,17 +2,16 @@ import Head from "next/head";
 import { Inter } from "next/font/google";
 import { AppBar, Box, CssBaseline, styled, ThemeProvider } from "@mui/material";
 import AllThemes, { defaultTheme } from "@/Theme";
-import styles from "@/styles/Home.module.css";
-import TitlePanel from "@/components/TitlePanel/TitlePanel";
 import React, { useState, useEffect } from "react";
 import ContentPanel from "@/components/ContentPanel/ContentPanel";
 import { useRouter } from "next/router";
-import { HideOnScroll } from "@/components/Utils/utils";
 import Header, { DynamicTab } from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import ThemeSelectDialog from "@/components/ThemeSelection/ThemeSelectDialog";
 import OverviewPanel from "@/components/OverviewPanel/OverviewPanel";
-import ContactDialog from "@/components/ContactDialog";
+import AboutMePanel from "@/components/AboutMePanel";
+import ProjectsPanel from "@/components/ProjectsPanel";
+import ExperiencePanel from "@/components/ExperiencePanel";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,7 +29,6 @@ interface TransitionState {
 }
 
 export default function Home() {
-  const router = useRouter();
   const [appBarState, setAppBarState] = useState<AppBarState>({
     transparent: true,
     elevated: true,
@@ -62,45 +60,15 @@ export default function Home() {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
 
-      // appBarState manipulation
-      // if (window.visualViewport?.height && scrollPosition < 1) {
-      //   setAppBarState({
-      //     transparent: true,
-      //     elevated: true,
-      //     logo: false,
-      //     display: true,
-      //   });
-      // } else if (
-      //   window.visualViewport?.height &&
-      //   scrollPosition > 5 &&
-      //   scrollPosition < window.visualViewport?.height
-      // ) {
-      //   setAppBarState({
-      //     ...appBarState,
-      //     elevated: true,
-      //     transparent: false,
-      //     display: false,
-      //   });
-      // } else if (
-      //   window.visualViewport?.height &&
-      //   scrollPosition > window.visualViewport?.height
-      // ) {
-      //   setAppBarState({
-      //     ...appBarState,
-      //     logo: true,
-      //     display: true,
-      //   });
-      // }
-
       // Panel transitions
       const aboutMeTop = aboutMeRef.current?.offsetTop;
       const experienceTop = experienceRef.current?.offsetTop;
       const portfolioTop = portfolioRef.current?.offsetTop;
 
       if (
-        aboutMeTop &&
+        portfolioTop &&
         !transitionState.transitionInOne &&
-        scrollPosition > aboutMeTop - 500
+        scrollPosition > portfolioTop - 425
       ) {
         setTransitionState({
           ...transitionState,
@@ -118,9 +86,9 @@ export default function Home() {
         });
       }
       if (
-        portfolioTop &&
+        aboutMeTop &&
         !transitionState.transitionInThree &&
-        scrollPosition > portfolioTop - 500
+        scrollPosition > aboutMeTop - 500
       ) {
         setTransitionState({
           ...transitionState,
@@ -133,29 +101,41 @@ export default function Home() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [appBarState, transitionState]);
 
+  const scrollToPortfolio = () => {
+    portfolioRef.current &&
+      portfolioRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+  };
+
+  const scrollToExperience = () => {
+    experienceRef.current &&
+      experienceRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+  };
+
+  const scrollToAboutMe = () => {
+    aboutMeRef.current &&
+      aboutMeRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+  };
+
   // scroll to content
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     switch (newValue) {
       case 0:
-        aboutMeRef.current &&
-          aboutMeRef.current.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-          });
+        scrollToPortfolio();
         break;
       case 1:
-        experienceRef.current &&
-          experienceRef.current.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-          });
+        scrollToExperience();
         break;
       case 2:
-        portfolioRef.current &&
-          portfolioRef.current.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-          });
+        scrollToAboutMe();
         break;
     }
   };
@@ -170,19 +150,13 @@ export default function Home() {
   // create tabs for header and drawer
   const tabs: DynamicTab[] = [
     {
-      name: "About Me",
+      name: "My Work",
     },
     {
       name: "Experience",
     },
     {
-      name: "Projects",
-    },
-    {
-      name: "Contact",
-      onClick: () => {
-        setContactDialogOpen(true);
-      },
+      name: "About Me",
     },
   ];
 
@@ -211,41 +185,35 @@ export default function Home() {
             handleTabChange={handleTabChange}
             logo={appBarState.logo}
             animate
+            setContactDialogOpen={setContactDialogOpen}
+            contactDialogOpen={contactDialogOpen}
           />
         </AppBar>
-        <Offset />
         <OverviewPanel openThemeDialog={openThemeDialog} />
-        <Box ref={aboutMeRef}>
-          <ContentPanel
-            odd
-            iterator={1}
-            transitionIn={transitionState.transitionInOne}
-          />
+        <Box ref={portfolioRef}>
+          <ProjectsPanel transitionIn={transitionState.transitionInOne} odd />
         </Box>
         <Box ref={experienceRef}>
-          <ContentPanel
-            iterator={2}
-            transitionIn={transitionState.transitionInTwo}
-          />
+          <ExperiencePanel transitionIn={transitionState.transitionInTwo} />
         </Box>
-        <Box ref={portfolioRef}>
-          <ContentPanel
-            iterator={3}
-            odd
-            transitionIn={transitionState.transitionInThree}
-          />
+        <Box ref={aboutMeRef}>
+          <AboutMePanel transitionIn={transitionState.transitionInThree} odd />
         </Box>
-        <Footer odd={true} />
+        <Footer
+          odd={true}
+          scrollToPortfolio={scrollToPortfolio}
+          scrollToExperience={scrollToExperience}
+          scrollToAboutMe={scrollToAboutMe}
+          openContactDialog={() => {
+            setContactDialogOpen(true);
+          }}
+        />
         <ThemeSelectDialog
           open={themeDialogOpen}
           onClose={handleClose}
           selectPresetTheme={mapPresetTheme}
           currentThemeName={currentTheme.name}
           setCurrentTheme={setCurrentTheme}
-        />
-        <ContactDialog
-          open={contactDialogOpen}
-          onClose={() => setContactDialogOpen(false)}
         />
       </main>
     </ThemeProvider>

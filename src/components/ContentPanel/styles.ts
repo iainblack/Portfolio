@@ -8,7 +8,7 @@ export const ContentPanelContainer = styled(Box, {
   minHeight: "100vh",
   width: "100vw",
   display: "flex",
-  justifyContent: "center",
+  justifyContent: "left",
   alignItems: "center",
   backgroundColor: odd
     ? theme.palette.background.paper

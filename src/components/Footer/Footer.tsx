@@ -11,16 +11,37 @@ import React from "react";
 import { FooterContainer } from "./styles";
 import styles from "@/styles/Home.module.css";
 import Image from "next/image";
-import { FacebookOutlined, Instagram, Twitter } from "@mui/icons-material";
+import {
+  FacebookOutlined,
+  GitHub,
+  Instagram,
+  LinkedIn,
+  Twitter,
+} from "@mui/icons-material";
 
 interface ContentPanelProps {
   odd?: boolean;
+  scrollToExperience: () => void;
+  scrollToPortfolio: () => void;
+  scrollToAboutMe: () => void;
+  openContactDialog: () => void;
 }
-
-const links = ["Home", "Features", "Contact", "About"];
+const linkedIn = "https://www.linkedin.com/in/iain-black2020/";
+const gitHub = "https://github.com/iainblack";
 
 const Footer: React.FC<ContentPanelProps> = ({ ...props }) => {
   const theme = useTheme();
+  const links = [
+    {
+      label: "Home",
+      onClick: () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      },
+    },
+    { label: "Projects", onClick: props.scrollToPortfolio },
+    { label: "Experience", onClick: props.scrollToExperience },
+    { label: "About", onClick: props.scrollToAboutMe },
+  ];
   return (
     <FooterContainer odd={props.odd}>
       <Box
@@ -34,7 +55,7 @@ const Footer: React.FC<ContentPanelProps> = ({ ...props }) => {
         <Box>
           <Image
             className={styles.logo}
-            src="/next.svg"
+            src="/mainlogo.svg"
             alt="logo"
             width={100}
             height={30}
@@ -53,13 +74,14 @@ const Footer: React.FC<ContentPanelProps> = ({ ...props }) => {
           <Box sx={{ display: "flex" }}>
             {links.map((link, index) => (
               <Button
+                onClick={link.onClick}
                 key={index}
                 sx={{
                   color: theme.palette.text.primary,
                   mx: 1,
                 }}
               >
-                {link}
+                {link.label}
               </Button>
             ))}
           </Box>
@@ -72,14 +94,19 @@ const Footer: React.FC<ContentPanelProps> = ({ ...props }) => {
           }}
         >
           <Box sx={{ display: "flex" }}>
-            <IconButton>
-              <FacebookOutlined />
+            <IconButton
+              onClick={() => {
+                window.open(linkedIn, "_blank");
+              }}
+            >
+              <LinkedIn />
             </IconButton>
-            <IconButton>
-              <Instagram />
-            </IconButton>
-            <IconButton>
-              <Twitter />
+            <IconButton
+              onClick={() => {
+                window.open(gitHub, "_blank");
+              }}
+            >
+              <GitHub />
             </IconButton>
           </Box>
         </Box>

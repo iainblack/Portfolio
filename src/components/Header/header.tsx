@@ -12,15 +12,18 @@ import {
   useTheme,
   Popover,
   Slide,
+  Button,
 } from "@mui/material";
 import React, { useEffect } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import Image, { StaticImageData } from "next/image";
 import DrawerList from "./DrawerList";
 import styles from "@/styles/Home.module.css";
+import ContactDialog from "../ContactDialog";
 
 export interface DynamicTab {
   name: string;
+  color?: string;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   external?: boolean;
   subTabs?: DynamicTab[];
@@ -31,11 +34,12 @@ interface HeaderProps {
   logo?: boolean;
   tabs: DynamicTab[];
   animate?: boolean;
+  setContactDialogOpen: (open: boolean) => void;
+  contactDialogOpen: boolean;
 }
 
 const Header: React.FC<HeaderProps> = ({ ...props }) => {
   const theme = useTheme();
-  const [animateTabs, setAnimateTabs] = React.useState(false);
   let animateTimeout = 550;
 
   const [drawerOpen, setDrawerOpen] = React.useState(false);
@@ -72,13 +76,6 @@ const Header: React.FC<HeaderProps> = ({ ...props }) => {
     }
   }, [drawerOpen]);
 
-  useEffect(() => {
-    if (!props.animate) return;
-    setTimeout(() => {
-      setAnimateTabs(true);
-    }, 1000);
-  }, []);
-
   return (
     <>
       <Toolbar disableGutters>
@@ -94,10 +91,11 @@ const Header: React.FC<HeaderProps> = ({ ...props }) => {
             }}
           >
             <Image
+              className={styles.logo}
               src="mainlogo.svg"
               alt="logo"
-              width={50}
-              height={35}
+              width={75}
+              height={75}
               priority
             />
           </IconButton>
@@ -117,16 +115,11 @@ const Header: React.FC<HeaderProps> = ({ ...props }) => {
             <MenuIcon fontSize="medium" />
           </IconButton>
           <Drawer
-            anchor="right"
+            anchor="top"
             open={drawerOpen}
             onClose={() => {
               setDrawerOpen(false);
               expandableDrawerItemOpen && handleExpandableDrawerItemClick();
-            }}
-            PaperProps={{
-              sx: {
-                width: { xs: 250, sm: 300 },
-              },
             }}
           >
             <DrawerList
@@ -137,6 +130,7 @@ const Header: React.FC<HeaderProps> = ({ ...props }) => {
               handleExpandableDrawerItemClick={handleExpandableDrawerItemClick}
               expandableDrawerItemOpen={expandableDrawerItemOpen}
               setExpandableDrawerItemOpen={setExpandableDrawerItemOpen}
+              setContactDialogOpen={props.setContactDialogOpen}
             />
           </Drawer>
         </Box>
@@ -151,6 +145,7 @@ const Header: React.FC<HeaderProps> = ({ ...props }) => {
           ref={containerRef}
         >
           <Tabs
+            ref={containerRef}
             value={false}
             onChange={props.handleTabChange}
             TabIndicatorProps={{
@@ -160,17 +155,14 @@ const Header: React.FC<HeaderProps> = ({ ...props }) => {
             }}
           >
             {props.tabs?.map((tab, index) => {
-              //animateTimeout += 200;
+              animateTimeout += 100;
               return (
                 <Slide
                   key={index}
-                  in={props.animate ? animateTabs : true}
                   direction="up"
+                  in={true}
+                  {...{ timeout: animateTimeout }}
                   container={containerRef.current}
-                  timeout={750}
-                  style={{
-                    transitionDelay: `${animateTimeout.toString()}ms`,
-                  }}
                 >
                   <Tab
                     label={tab.name}
@@ -181,68 +173,41 @@ const Header: React.FC<HeaderProps> = ({ ...props }) => {
                     }}
                     sx={{
                       textTransform: "none",
-                      color: theme.palette.text.primary,
+                      color: tab.color || "text.primary",
                       fontFamily: theme.typography.body2.fontFamily,
                     }}
                   />
                 </Slide>
               );
             })}
-            {props.tabs?.map((navTab, index) => (
-              <Popover
-                key={`popover-${index}`}
-                disableScrollLock
-                open={popoverOpen}
-                anchorEl={anchorEl}
-                onClose={handleExpandableTabClose}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "center",
-                }}
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "center",
-                }}
-                PaperProps={{
-                  sx: {
-                    borderRadius: 1,
-                    border: 1,
-                  },
-                }}
-              >
-                <List>
-                  {navTab.subTabs &&
-                    navTab.subTabs.length > 0 &&
-                    navTab.subTabs.map((subTab, index) => (
-                      <ListItem key={index} disablePadding>
-                        <ListItemButton
-                          sx={{
-                            whiteSpace: "nowrap",
-                            "&:hover": {
-                              color: "primary.main",
-                              borderColor: "none",
-                            },
-                          }}
-                          onClick={(e) => {
-                            subTab.onClick && subTab.onClick(e as any);
-                            handleExpandableTabClose();
-                          }}
-                        >
-                          <ListItemText
-                            primary={subTab.name}
-                            primaryTypographyProps={{
-                              textAlign: "center",
-                            }}
-                          />
-                        </ListItemButton>
-                      </ListItem>
-                    ))}
-                </List>
-              </Popover>
-            ))}
           </Tabs>
+          <Slide
+            direction="up"
+            in={true}
+            {...{ timeout: animateTimeout + 200 }}
+            container={containerRef.current}
+          >
+            <Button
+              variant={"outlined"}
+              color="primary"
+              sx={{
+                ml: 2,
+                textTransform: "none",
+                fontFamily: theme.typography.body2.fontFamily,
+              }}
+              onClick={(e) => {
+                props.setContactDialogOpen(true);
+              }}
+            >
+              Contact
+            </Button>
+          </Slide>
         </Box>
       </Toolbar>
+      <ContactDialog
+        open={props.contactDialogOpen}
+        onClose={() => props.setContactDialogOpen(false)}
+      />
     </>
   );
 };

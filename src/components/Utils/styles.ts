@@ -20,11 +20,12 @@ export const PanelContainer = styled(Box, {
     paddingTop: theme.spacing(8),
     paddingBottom: theme.spacing(8),
   },
-  minHeight: minHeight ? minHeight : "calc(100vh - 64px)",
+  minHeight: minHeight ? minHeight : "100vh",
   display: "flex",
-  backgroundColor: backgroundColor
-    ? backgroundColor
-    : odd
+  justifyContent: "left",
+  alignItems: "center",
+  overflowY: "hidden",
+  backgroundColor: odd
     ? theme.palette.background.paper
     : theme.palette.background.default,
 }));

@@ -20,17 +20,13 @@ interface DrawerListProps {
   expandableDrawerItemOpen: boolean;
   setExpandableDrawerItemOpen: (open: boolean) => void;
   handleExpandableDrawerItemClick: () => void;
+  setContactDialogOpen: (open: boolean) => void;
 }
 
 const DrawerList: React.FC<DrawerListProps> = ({ ...props }) => {
   const theme = useTheme();
   return (
-    <Box
-      role="presentation"
-      sx={{
-        width: { xs: 250, sm: 300 },
-      }}
-    >
+    <Box role="presentation">
       <List>
         {props.tabs?.map((tab, index) => (
           <Box key={index}>
@@ -53,7 +49,7 @@ const DrawerList: React.FC<DrawerListProps> = ({ ...props }) => {
                       primary={tab.name}
                       primaryTypographyProps={{
                         textAlign: "center",
-                        fontFamily: "header",
+                        fontFamily: theme.typography.body2.fontFamily,
                       }}
                     />
                     {props.expandableDrawerItemOpen ? (
@@ -104,7 +100,6 @@ const DrawerList: React.FC<DrawerListProps> = ({ ...props }) => {
                   sx={{
                     mx: "10%",
                     whiteSpace: "nowrap",
-                    border: 1,
                     my: 1,
                     "&:hover": {
                       color: "primary.main",
@@ -124,7 +119,7 @@ const DrawerList: React.FC<DrawerListProps> = ({ ...props }) => {
                     primary={tab.name}
                     primaryTypographyProps={{
                       textAlign: "center",
-                      fontFamily: "header",
+                      fontFamily: theme.typography.body2.fontFamily,
                     }}
                   />
                   {tab.external && (
@@ -138,6 +133,26 @@ const DrawerList: React.FC<DrawerListProps> = ({ ...props }) => {
             )}
           </Box>
         ))}
+        <ListItem disablePadding alignItems="center">
+          <ListItemButton
+            sx={{
+              mx: "10%",
+            }}
+            onClick={() => {
+              props.setContactDialogOpen(true);
+              props.setDrawerOpen(false);
+            }}
+          >
+            <ListItemText
+              primary="Contact"
+              primaryTypographyProps={{
+                fontFamily: theme.typography.body2.fontFamily,
+                textAlign: "center",
+                color: theme.palette.info.main,
+              }}
+            />
+          </ListItemButton>
+        </ListItem>
       </List>
     </Box>
   );

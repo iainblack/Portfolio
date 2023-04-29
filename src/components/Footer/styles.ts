@@ -11,6 +11,6 @@ export const FooterContainer = styled(Box, {
   flexDirection: "column",
   justifyContent: "center",
   alignItems: "center",
-  backgroundColor: odd ? "grey" : theme.palette.background.default,
+  backgroundColor: "black",
   padding: theme.spacing(3),
 }));

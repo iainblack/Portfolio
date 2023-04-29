@@ -2,11 +2,12 @@ import {
   Box,
   Button,
   Fade,
+  Slide,
   Theme,
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { PanelContainer } from "../Utils/styles";
 
 interface OverviewPanelProps {
@@ -14,81 +15,72 @@ interface OverviewPanelProps {
 }
 
 export default function OverviewPanel(props: OverviewPanelProps) {
+  const [animate, setAnimate] = useState(false);
+  const containerRef = React.useRef<HTMLDivElement>(null);
   const isSmallScreen = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down("sm")
   );
+
+  useEffect(() => {
+    setTimeout(() => {
+      setAnimate(true);
+    }, 1000);
+  }, []);
+
   return (
     <PanelContainer
       sx={{
         mt: { xs: -5, sm: 0 },
       }}
     >
-      <Box sx={{ position: "relative" }}>
-        <Fade
-          in={true}
-          {...{ timeout: 3000 }}
-          style={{ transitionDelay: isSmallScreen ? "0ms" : "1000ms" }}
-        >
-          <Typography variant="body2" color="primary" sx={{ mb: 1 }}>
-            Hi, my name is
-          </Typography>
-        </Fade>
-        <Fade
-          in={true}
-          {...{ timeout: 3000 }}
-          style={{ transitionDelay: isSmallScreen ? "0ms" : "1000ms" }}
-        >
-          <Typography variant="h1" fontWeight={700}>
-            Iain Black.
-          </Typography>
-        </Fade>
-        <Fade
-          in={true}
-          {...{ timeout: 3000 }}
-          style={{ transitionDelay: isSmallScreen ? "1000ms" : "2000ms" }}
-        >
-          <Typography
-            variant="h1"
-            fontWeight={700}
-            sx={{ mb: 4, color: "text.secondary" }}
+      <Fade in={isSmallScreen ? true : animate} timeout={4000}>
+        <Box ref={containerRef}>
+          <Slide
+            in={isSmallScreen ? true : animate}
+            timeout={1000}
+            direction={"up"}
+            container={containerRef.current}
           >
-            I build stuff for the internet.
-          </Typography>
-        </Fade>
-        <Fade
-          in={true}
-          {...{ timeout: 3000 }}
-          style={{ transitionDelay: isSmallScreen ? "1500ms" : "2500ms" }}
-        >
-          <Typography
-            variant="h5"
-            fontWeight={200}
-            color="text.secondary"
-            sx={{ maxWidth: 800 }}
-          >
-            I&apos;m a software developer with over 3 years of full stack
-            experience and a bachelor&apos;s degree in Computer Science. I have
-            a passion for creating elegant, user-friendly solutions. Welcome to
-            my page!
-          </Typography>
-        </Fade>
-        <Fade
-          in={true}
-          {...{ timeout: 3000 }}
-          style={{ transitionDelay: isSmallScreen ? "1500ms" : "2500ms" }}
-        >
-          <Box sx={{ display: "flex", justifyContent: "left", mt: 6 }}>
-            <Button
-              variant="outlined"
-              color="info"
-              sx={{ textTransform: "none" }}
-              onClick={props.openThemeDialog}
-            >
-              Try this out
-            </Button>
-          </Box>
-        </Fade>
-      </Box>
+            <Box sx={{ position: "relative" }}>
+              <Typography variant="body2" color="primary" sx={{ mb: 1 }}>
+                Hi, my name is
+              </Typography>
+              <Typography variant="h1" fontWeight={700}>
+                Iain Black.
+              </Typography>
+              <Typography
+                variant="h1"
+                fontWeight={700}
+                sx={{ mb: 4, color: "text.secondary" }}
+              >
+                I build stuff for the internet.
+              </Typography>
+
+              <Typography
+                variant="h5"
+                fontWeight={200}
+                color="text.secondary"
+                sx={{ maxWidth: 800 }}
+              >
+                I&apos;m a software developer with over 3 years of full stack
+                experience and a bachelor&apos;s degree in Computer Science. I
+                have a passion for creating elegant, user-friendly solutions.
+                Welcome!
+              </Typography>
+              <Box sx={{ display: "flex", justifyContent: "left", mt: 6 }}>
+                <Button
+                  variant="outlined"
+                  color="info"
+                  sx={{ textTransform: "none" }}
+                  onClick={props.openThemeDialog}
+                >
+                  Try this out
+                </Button>
+              </Box>
+            </Box>
+          </Slide>
+        </Box>
+      </Fade>
     </PanelContainer>
   );
 }

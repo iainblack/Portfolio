@@ -13,6 +13,7 @@ import {
   ListItemButton,
   ListItemIcon,
   Snackbar,
+  Typography,
   useTheme,
 } from "@mui/material";
 import PhoneIphoneIcon from "@mui/icons-material/PhoneIphone";
@@ -37,6 +38,7 @@ const linkedIn = "https://www.linkedin.com/in/iain-black2020/";
 const gitHub = "https://github.com/iainblack";
 
 export default function ContactDialog(props: ContactDialogProps) {
+  const theme = useTheme();
   const { onClose, open } = props;
   const [openSnackBar, setOpenSnackBar] = React.useState(false);
   const handleClose = (
@@ -57,13 +59,17 @@ export default function ContactDialog(props: ContactDialogProps) {
 
   return (
     <Dialog open={open} onClose={onClose} disableScrollLock>
-      <DialogTitle sx={{ textAlign: "center" }}>Get In Touch</DialogTitle>
-      <Divider />
+      <DialogTitle
+        sx={{ textAlign: "center", fontSize: theme.typography.body2.fontSize }}
+      >
+        Get In Touch
+      </DialogTitle>
+      <Divider variant="middle" />
       <DialogContent>
         <List>
           <ContactRow
             startIcon={<PhoneIphoneIcon />}
-            secondaryIcon={<ContentCopyIcon sx={{ height: 14, width: 14 }} />}
+            secondaryIcon={<ContentCopyIcon sx={{ height: 18, width: 18 }} />}
             text={phoneNumber}
             desktopClick={() => {
               handleCopy(phoneNumber);
@@ -74,7 +80,7 @@ export default function ContactDialog(props: ContactDialogProps) {
           />
           <ContactRow
             startIcon={<EmailIcon />}
-            secondaryIcon={<ContentCopyIcon sx={{ height: 14, width: 14 }} />}
+            secondaryIcon={<ContentCopyIcon sx={{ height: 18, width: 18 }} />}
             text={email}
             desktopClick={() => {
               handleCopy(email);
@@ -85,7 +91,7 @@ export default function ContactDialog(props: ContactDialogProps) {
           />
           <ContactRow
             startIcon={<LinkedInIcon />}
-            secondaryIcon={<OpenInNewIcon sx={{ height: 14, width: 14 }} />}
+            secondaryIcon={<OpenInNewIcon sx={{ height: 18, width: 18 }} />}
             text={"LinkedIn"}
             desktopClick={() => {
               window.open(linkedIn, "_blank");
@@ -96,7 +102,7 @@ export default function ContactDialog(props: ContactDialogProps) {
           />
           <ContactRow
             startIcon={<GitHubIcon />}
-            secondaryIcon={<OpenInNewIcon sx={{ height: 14, width: 14 }} />}
+            secondaryIcon={<OpenInNewIcon sx={{ height: 18, width: 18 }} />}
             text={"GitHub"}
             desktopClick={() => {
               window.open(gitHub, "_blank");
@@ -107,7 +113,7 @@ export default function ContactDialog(props: ContactDialogProps) {
           />
           <ContactRow
             startIcon={<ArticleIcon />}
-            secondaryIcon={<DownloadIcon sx={{ height: 14, width: 14 }} />}
+            secondaryIcon={<DownloadIcon sx={{ height: 18, width: 18 }} />}
             text={"Resume"}
             desktopClick={downloadResume}
             mobileClick={downloadResume}
@@ -125,10 +131,10 @@ export default function ContactDialog(props: ContactDialogProps) {
         <Alert
           onClose={handleClose}
           severity="success"
-          sx={{ width: "100%" }}
+          sx={{ width: "100%", alignItems: "center" }}
           variant="filled"
         >
-          Copied to clipboard!
+          <Typography fontSize={18}>Copied to clipboard!</Typography>
         </Alert>
       </Snackbar>
     </Dialog>
