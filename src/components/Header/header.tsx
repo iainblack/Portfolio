@@ -32,6 +32,7 @@ interface HeaderProps {
   animate?: boolean;
   setContactDialogOpen: (open: boolean) => void;
   contactDialogOpen: boolean;
+  tabValue: number | false;
 }
 
 const Header: React.FC<HeaderProps> = ({ ...props }) => {
@@ -141,7 +142,7 @@ const Header: React.FC<HeaderProps> = ({ ...props }) => {
         >
           <Tabs
             ref={containerRef}
-            value={false}
+            value={props.tabValue}
             onChange={props.handleTabChange}
             TabIndicatorProps={{
               style: {
@@ -184,7 +185,7 @@ const Header: React.FC<HeaderProps> = ({ ...props }) => {
           >
             <Button
               variant={"outlined"}
-              color="primary"
+              color="info"
               sx={{
                 ml: 2,
                 textTransform: "none",

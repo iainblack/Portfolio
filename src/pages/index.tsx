@@ -26,6 +26,7 @@ interface TransitionState {
   transitionInOne: boolean;
   transitionInTwo: boolean;
   transitionInThree: boolean;
+  tabValue: number | false;
 }
 
 export default function Home() {
@@ -43,6 +44,7 @@ export default function Home() {
     transitionInOne: false,
     transitionInTwo: false,
     transitionInThree: false,
+    tabValue: false,
   });
   const handleClose = () => {
     setThemeDialogOpen(false);
@@ -65,33 +67,30 @@ export default function Home() {
       const experienceTop = experienceRef.current?.offsetTop;
       const portfolioTop = portfolioRef.current?.offsetTop;
 
-      if (
-        portfolioTop &&
-        !transitionState.transitionInOne &&
-        scrollPosition > portfolioTop - 425
-      ) {
+      if (portfolioTop && scrollPosition < portfolioTop) {
         setTransitionState({
           ...transitionState,
+          tabValue: false,
+        });
+      }
+      if (portfolioTop && scrollPosition > portfolioTop - 425) {
+        setTransitionState({
+          ...transitionState,
+          tabValue: 0,
           transitionInOne: true,
         });
       }
-      if (
-        experienceTop &&
-        !transitionState.transitionInTwo &&
-        scrollPosition > experienceTop - 500
-      ) {
+      if (experienceTop && scrollPosition > experienceTop - 500) {
         setTransitionState({
           ...transitionState,
+          tabValue: 1,
           transitionInTwo: true,
         });
       }
-      if (
-        aboutMeTop &&
-        !transitionState.transitionInThree &&
-        scrollPosition > aboutMeTop - 500
-      ) {
+      if (aboutMeTop && scrollPosition > aboutMeTop - 500) {
         setTransitionState({
           ...transitionState,
+          tabValue: 2,
           transitionInThree: true,
         });
       }
@@ -187,6 +186,7 @@ export default function Home() {
             animate
             setContactDialogOpen={setContactDialogOpen}
             contactDialogOpen={contactDialogOpen}
+            tabValue={transitionState.tabValue}
           />
         </AppBar>
         <OverviewPanel openThemeDialog={openThemeDialog} />
