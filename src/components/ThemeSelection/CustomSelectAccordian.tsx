@@ -11,7 +11,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useState } from "react";
 import { HexColorPicker } from "react-colorful";
 import { useTheme } from "@mui/material/styles";
-import { ThemeObject } from "@/Themes";
+import { ThemeObject } from "@/Theme";
 
 interface CustomSelectAccordianProps {
   setTheme: (theme: ThemeObject) => void;

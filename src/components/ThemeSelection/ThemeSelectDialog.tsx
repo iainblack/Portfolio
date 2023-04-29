@@ -1,4 +1,4 @@
-import { ThemeObject } from "@/Themes";
+import { ThemeObject } from "@/Theme";
 import {
   Dialog,
   DialogTitle,
