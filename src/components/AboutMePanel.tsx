@@ -78,6 +78,7 @@ export default function AboutMePanel(props: AboutMePanelProps) {
                       src="/avatar.jpg"
                       alt="pic"
                       fill
+                      priority
                       style={{ borderRadius: 12 }}
                     />
                   </Avatar>

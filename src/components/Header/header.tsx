@@ -96,7 +96,6 @@ const Header: React.FC<HeaderProps> = ({ ...props }) => {
               alt="logo"
               width={75}
               height={75}
-              priority
             />
           </IconButton>
         )}
