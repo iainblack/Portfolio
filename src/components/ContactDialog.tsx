@@ -75,7 +75,7 @@ export default function ContactDialog(props: ContactDialogProps) {
               handleCopy(phoneNumber);
             }}
             mobileClick={() => {
-              handleCopy(phoneNumber);
+              window.open(`tel:${phoneNumber}`, "_self");
             }}
           />
           <ContactRow
