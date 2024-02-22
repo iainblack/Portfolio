@@ -74,7 +74,7 @@ export default function OverviewPanel(props: OverviewPanelProps) {
                   sx={{ textTransform: "none" }}
                   onClick={props.openThemeDialog}
                 >
-                  Try this out
+                  Select a theme
                 </Button>
               </Box>
             </Box>

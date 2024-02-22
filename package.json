@@ -9,22 +9,24 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@mui/icons-material": "^5.11.16",
-    "@mui/material": "^5.12.1",
-    "@mui/styled-engine-sc": "^5.12.0",
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.15.10",
+    "@mui/material": "^5.15.10",
+    "@mui/styled-engine-sc": "^5.14.12",
     "@types/node": "18.16.0",
-    "@types/react": "18.2.0",
-    "@types/react-dom": "18.2.0",
-    "@vercel/analytics": "^1.0.0",
-    "eslint": "8.39.0",
+    "@types/react": "18.2.57",
+    "@types/react-dom": "18.2.19",
+    "@vercel/analytics": "^1.2.2",
+    "eslint": "8.56.0",
     "eslint-config-next": "13.3.1",
-    "keen-slider": "^6.8.5",
-    "next": "13.3.1",
+    "keen-slider": "^6.8.6",
+    "next": "^14.1.0",
     "react": "18.2.0",
     "react-colorful": "^5.6.1",
     "react-dom": "18.2.0",
     "sharp": "^0.32.0",
     "styled-components": "^5.3.10",
-    "typescript": "5.0.4"
+    "typescript": "5.3.3"
   }
 }

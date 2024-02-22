@@ -4,6 +4,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
+import CloseIcon from "@mui/icons-material/Close";
 import {
   Alert,
   DialogContent,
@@ -62,6 +63,17 @@ export default function ContactDialog(props: ContactDialogProps) {
       <DialogTitle
         sx={{ textAlign: "center", fontSize: theme.typography.body2.fontSize }}
       >
+        <IconButton
+          onClick={props.onClose}
+          sx={{
+            position: "absolute",
+            right: 8,
+            top: 8,
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
         Get In Touch
       </DialogTitle>
       <Divider variant="middle" />

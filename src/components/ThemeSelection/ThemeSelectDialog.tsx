@@ -53,7 +53,8 @@ export default function ThemeSelectDialog(props: ThemeSelectDialogProps) {
           height={35}
           style={{ marginRight: theme.spacing(2) }}
         />
-        Theme Customization
+        <Typography variant="h6">
+          Theme Selection</Typography>
         <IconButton
           onClick={props.onClose}
           sx={{
