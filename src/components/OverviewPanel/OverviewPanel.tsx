@@ -62,9 +62,8 @@ export default function OverviewPanel(props: OverviewPanelProps) {
                 color="text.secondary"
                 sx={{ maxWidth: 800 }}
               >
-                I&apos;m a software developer with over 3 years of full stack
-                experience and a bachelor&apos;s degree in Computer Science. I
-                have a passion for creating elegant, user-friendly solutions.
+                I&apos;m a software developer with over 4 years of full stack
+                experience and a bachelor&apos;s degree in Computer Science. I help people achieve their goals through software.
                 Welcome!
               </Typography>
               <Box sx={{ display: "flex", justifyContent: "left", mt: 6 }}>

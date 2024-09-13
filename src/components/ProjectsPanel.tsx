@@ -11,6 +11,7 @@ import {
 import Image from "next/image";
 import { useRef } from "react";
 import { PanelContainer } from "./Utils/styles";
+import ProjectCard from "./ProjectCard";
 
 interface ProjectsPanelProps {
   transitionIn: boolean;
@@ -35,68 +36,29 @@ export default function ProjectsPanel(props: ProjectsPanelProps) {
             <Box sx={{ width: "100%" }}>
               <Box>
                 <Typography variant="h4" sx={{ mb: 5 }}>
-                  Freelance Projects
+                  Projects
                 </Typography>
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: { xs: "column", lg: "row" },
-                    alignItems: "center",
-                  }}
-                >
-                  <a href="https://www.benniditos.com/" target={"_blank"}>
-                    <Box
-                      sx={{
-                        transition: "all .2s ease-in-out",
-                        "&:hover": {
-                          transform: "scale(1.05)",
-                        },
-                        boxShadow: 15,
-                        position: "relative",
-                        borderRadius: 12,
-                        mb: { xs: 3, lg: 0 },
-                        height: { xs: 250, md: 400 },
-                        width: { xs: "85vw", sm: "75vw", md: 600 },
-                      }}
-                    >
-                      <Image
-                        src="/ditos.png"
-                        fill
-                        alt="pic"
-                        style={{
-                          borderRadius: 12,
-                        }}
-                      />
-                    </Box>
-                  </a>
-                  <Box
-                    sx={{
-                      px: { xs: 0, lg: 5 },
-                      textAlign: "left",
-                      maxWidth: 500,
-                    }}
-                  >
-                    <Typography
-                      variant="h6"
-                      sx={{
-                        display: "block",
-                        mb: 2,
-                        color: "text.secondary",
-                      }}
-                    >
-                      Bennidito&apos;s Pizza
-                    </Typography>
-                    <Typography variant="body1" sx={{ mb: 3 }}>
-                      Bennidito&apos;s Pizza is a local pizza shop in Spokane,
-                      WA. I built them a modern website to bring in more
-                      business and create a better customer experience. This
-                      site was built using React, Next.js and Material-UI.
-                    </Typography>
-                    <Link href="https://www.benniditos.com/" target={"_blank"}>
-                      www.benniditos.com
-                    </Link>
-                  </Box>
-                </Box>
+
+                <ProjectCard
+                  href="https://www.healingwithmiracles.com/"
+                  imagePath="/louBlog3.png"
+                  title="Lou Fleming's Blog"
+                  description="Lou Fleming is a personal blogger who wanted to tell his story online. I built a website that would allow him to share his experiences and knowledge with the world. Integrated with a headless CMS and email subscription service, this web application was built using Next.js 14, Sanity CMS, Tailwind CSS, Firebase Firestore, and SendGrid."
+                  linkTitle="www.healingwithmiracles.com"
+                />
+                <ProjectCard
+                  imagePath="/raysApp.png"
+                  title="The 49 Rays of God"
+                  description="The 49 Rays of God is a mobile application that serves as a reference to the teachings of a religious group called Namaste Inc. in the form of a virtual card deck. Users can scroll through the deck or shuffle the cards for daily inspiration. This application was built using React Native, Expo, and TypeScript. I also managed the deployment and billing set up on behalf of the organization. No personal affiliation with the organization."
+                  linkTitle="Find it on the App Store or Google Play Store"
+                />
+                <ProjectCard
+                  href="https://www.benniditos.com/"
+                  imagePath="/ditos.png"
+                  title="Bennidito's Pizza"
+                  description="Bennidito's Pizza is popular neighborhood restaurant located in Spokane, WA. I built them a modern website to bring in more business and create a better customer experience. This web application was built using Next.js and Material-UI."
+                  linkTitle="www.benniditos.com"
+                />
               </Box>
             </Box>
           </Slide>

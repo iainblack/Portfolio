@@ -8,27 +8,21 @@ import {
   Tabs,
   Theme,
   useMediaQuery,
-  useTheme,
+
 } from "@mui/material";
 import { PanelContainer } from "./Utils/styles";
 
 const exp = [
   {
-    description: `In the Spring of 2020 I had just finished my last season as a linebacker for the Whitworth Pirates and received a Bachelor's degree in Computer Science with honors.
-     I interned the previous summer at Verint who maintained a conversational AI platform, and received an offer for a full-time position as an Associate Software Engineer.`,
-    description2: `Because of my internship, I had already learned the basics and was ready to hit the ground running. Instilled in me was the importance of integration testing, scalability of features, and thorough documentation.
-    I was already using cutting edge tools like React, TypeScript, Azure, and much more. Could not have asked for a better place to get my foot in the door.`,
-    description3: `In less than a year I was promoted to a mid level Software Engineer and was managing all development efforts for a delivery team. I was autonomously delivering full stack features which generally involved creating RESTful API requests in a .NET/C# backend and building reusable React components to display user-friendly data on the frontend.
-    I also frequently met with development teams from client companies to troubleshoot website integration issues and discuss other technical topics.`,
-    description4: `My features impacted a high volume of users via enterprise-level medical companies. Solutions primarily involved communicating sensitive data to both medical professionals and patients through a virtual assistant which we integrated on to the client's website.`,
+    description: `At Accruent I work on a central authentication product that serves as an identity provider for numerous applications accross the company. Our tech stack includes .NET for the back end, where our solution integrates with Duende Identity server, and React on the front end. I have also been involved in application security, leading our integration with Veracode to address CWE findings and ensure safe coding practices throughout the development process.`,
   },
   {
-    description: `After more than two years at Verint I had really come into my own as a developer. So, when I was presented with the opportunity to join a startup, I jumped at the chance. I joined a team of about 8 other developers at Juno - a virtual live events company in the process of transitioning to a SaaS modeled learning and community platform.
-    As a Senior Software Developer, I was tasked primarily with assisting in the migration from a bloated, outdated codebase to a modern, scalable, and maintainable React-based solution.`,
-    description2: `I was able to get up to speed quickly with minimal assistance, contributing within days on the job. Much of my initial work involved refactoring legacy code to use modularized React components.`,
-    description3: `Soon I began to take on larger and more challenging tasks. The most notable of which was a social feed feature which allowed users to create and delete posts, reply to other user's posts, tag users from their community, and more. This feature was built from the ground up using React, TypeScript, React-Query, and a Python/Django backend.`,
-    description4: `Juno, like many other startups, was an unfortunate victim of the Silicon Valley Bank collapse. I was laid off along with over half the company and 90% of the development team.`,
+    description: `As a Senior Software Developer at a tech start-up called Juno, I played a key role in migrating an outdated codebase to a modern, scalable React-based solution. I started by refactoring legacy code into modularized React components and quickly took on more complex tasks. Notably, I led the development of a social feed feature, allowing users to create and interact with posts, using React, TypeScript, React-Query, and a Python/Django backend`,
   },
+  {
+    description: `In Spring 2020, I graduated with honors in Computer Science while playing linebacker for the Whitworth Pirates. I interned at Verint, working on a conversational AI platform, and transitioned to a full-time role as an Associate Software Engineer.`,
+    description2: `Early in my career, I gained experience with integration testing, feature scalability, and tools like React, TypeScript, and Azure. Less than a year later, I was promoted to mid-level Software Engineer, where I led development efforts for a delivery team, building full-stack features and collaborating with clients to integrate solutions. My work impacted enterprise-level medical companies, delivering sensitive data through virtual assistant integrations on client websites.`,
+  }
 ];
 
 interface ExperiencePanelProps {
@@ -65,7 +59,7 @@ export default function ExperiencePanel(props: ExperiencePanelProps) {
                 variant="h4"
                 sx={{ mb: 5, textAlign: isSmallScreen ? "center" : "left" }}
               >
-                My Experience
+                Experience
               </Typography>
               <Box sx={{ display: isSmallScreen ? "block" : "flex" }}>
                 <Tabs
@@ -80,19 +74,32 @@ export default function ExperiencePanel(props: ExperiencePanelProps) {
                     mb: isSmallScreen ? 2 : 0,
                   }}
                 >
-                  <Tab
-                    label="Juno"
-                    sx={{ textTransform: "none", textAlign: "left" }}
-                  />
+                  <Tab label="Accruent" sx={{ textTransform: "none" }} />
+                  <Tab label="Juno" sx={{ textTransform: "none" }} />
                   <Tab label="Verint" sx={{ textTransform: "none" }} />
                 </Tabs>
                 <TabPanel value={value} index={0}>
+                  <Typography variant="h5">Software Engineer II</Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{ mb: 2, color: "text.secondary" }}
+                  >
+                    May 2023 - Present
+                  </Typography>
+                  <Typography variant="body1" sx={{ maxWidth: 800, mb: 1 }}>
+                    {exp[0].description}
+                  </Typography>
+                  <Typography variant="body1" sx={{ maxWidth: 800, mb: 1 }}>
+                    {exp[0].description2}
+                  </Typography>
+                </TabPanel>
+                <TabPanel value={value} index={1}>
                   <Typography variant="h5">Senior Software Engineer</Typography>
                   <Typography
                     variant="body2"
                     sx={{ mb: 2, color: "text.secondary" }}
                   >
-                    September 2022 - March 2023
+                    September 2022 - April 2023
                   </Typography>
                   <Typography variant="body1" sx={{ maxWidth: 800, mb: 1 }}>
                     {exp[1].description}
@@ -100,14 +107,8 @@ export default function ExperiencePanel(props: ExperiencePanelProps) {
                   <Typography variant="body1" sx={{ maxWidth: 800, mb: 1 }}>
                     {exp[1].description2}
                   </Typography>
-                  <Typography variant="body1" sx={{ maxWidth: 800, mb: 1 }}>
-                    {exp[1].description3}
-                  </Typography>
-                  <Typography variant="body1" sx={{ maxWidth: 800 }}>
-                    {exp[1].description4}
-                  </Typography>
                 </TabPanel>
-                <TabPanel value={value} index={1}>
+                <TabPanel value={value} index={2}>
                   <Typography variant="h5">Software Engineer</Typography>
                   <Typography
                     variant="body2"
@@ -116,16 +117,10 @@ export default function ExperiencePanel(props: ExperiencePanelProps) {
                     January 2020 - September 2022
                   </Typography>
                   <Typography variant="body1" sx={{ maxWidth: 800, mb: 1 }}>
-                    {exp[0].description}
+                    {exp[2].description}
                   </Typography>
                   <Typography variant="body1" sx={{ maxWidth: 800, mb: 1 }}>
-                    {exp[0].description2}
-                  </Typography>
-                  <Typography variant="body1" sx={{ maxWidth: 800, mb: 1 }}>
-                    {exp[0].description3}
-                  </Typography>
-                  <Typography variant="body1" sx={{ maxWidth: 800 }}>
-                    {exp[0].description4}
+                    {exp[2].description2}
                   </Typography>
                 </TabPanel>
               </Box>

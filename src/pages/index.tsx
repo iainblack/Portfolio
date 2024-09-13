@@ -3,8 +3,6 @@ import { Inter } from "next/font/google";
 import { AppBar, Box, CssBaseline, styled, ThemeProvider } from "@mui/material";
 import AllThemes, { defaultTheme } from "@/Theme";
 import React, { useState, useEffect } from "react";
-import ContentPanel from "@/components/ContentPanel/ContentPanel";
-import { useRouter } from "next/router";
 import Header, { DynamicTab } from "@/components/Header/header";
 import Footer from "@/components/Footer/Footer";
 import ThemeSelectDialog from "@/components/ThemeSelection/ThemeSelectDialog";
@@ -12,8 +10,6 @@ import OverviewPanel from "@/components/OverviewPanel/OverviewPanel";
 import AboutMePanel from "@/components/AboutMePanel";
 import ProjectsPanel from "@/components/ProjectsPanel";
 import ExperiencePanel from "@/components/ExperiencePanel";
-
-const inter = Inter({ subsets: ["latin"] });
 
 interface AppBarState {
   transparent: boolean;
@@ -149,7 +145,7 @@ export default function Home() {
   // create tabs for header and drawer
   const tabs: DynamicTab[] = [
     {
-      name: "My Work",
+      name: "Projects",
     },
     {
       name: "Experience",

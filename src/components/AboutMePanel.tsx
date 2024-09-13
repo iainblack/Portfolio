@@ -1,16 +1,15 @@
+/* eslint-disable react/no-unescaped-entities */
 import {
   Avatar,
   Box,
   Fade,
-  Link,
   Slide,
-  Theme,
   Typography,
   useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import Image from "next/image";
 import { useRef } from "react";
-import { ContentPanelContainer } from "./ContentPanel/styles";
 import { PanelContainer } from "./Utils/styles";
 
 interface AboutMePanelProps {
@@ -20,6 +19,9 @@ interface AboutMePanelProps {
 
 export default function AboutMePanel(props: AboutMePanelProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
+
   return (
     <PanelContainer odd={props.odd}>
       <Fade
@@ -33,39 +35,40 @@ export default function AboutMePanel(props: AboutMePanelProps) {
             direction={"up"}
             container={containerRef.current}
           >
-            <Box>
-              <Box sx={{ maxWidth: 800 }}>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: isDesktop ? "row" : "column",
+                alignItems: isDesktop ? "flex-start" : "center",
+              }}
+            >
+              <Box sx={{ maxWidth: 800, mb: isDesktop ? 0 : 2 }}>
                 <Typography variant="h4" sx={{ mb: 2 }}>
                   About Me
                 </Typography>
-              </Box>
-              <Box>
                 <Typography
                   sx={{
                     color: "text.secondary",
                     maxWidth: 800,
                   }}
                 >
-                  I&apos;m a Software Engineer with 3+ years off full-stack
-                  experience and a knack for learning. I have experience using
-                  React, TypeScript, HTML, CSS, C#, Python, and popular testing
-                  frameworks. I have a passion for creating elegant front-end
-                  solutions, and am working on building my freelance web
-                  development business.
+                  When I'm not coding, you'll probably find me golfing, rooting for my hometown Seattle Mariners, spending time with friends and family, or enjoying the outdoors. My passion is helping people improve their online footprint, which is why I've been steadily building a freelance business. I'm always looking for new opportunities to learn and grow, so if you have a project in mind, I'd love to hear about it!
                 </Typography>
               </Box>
               <Box
                 sx={{
                   display: "flex",
                   justifyContent: { xs: "center", md: "flex-start" },
+                  ml: isDesktop ? 4 : 0,
+                  mt: isDesktop ? 0 : 6,
                 }}
               >
                 <Box
                   sx={{
                     position: "relative",
-                    mt: 6,
                     height: { xs: 250, md: 350 },
                     width: { xs: 250, md: 350 },
+                    ml: isDesktop ? 12 : 0,
                   }}
                 >
                   <Avatar

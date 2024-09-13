@@ -6,13 +6,12 @@ import {
   Tab,
   Tabs,
   useTheme,
-  Popover,
   Slide,
   Button,
 } from "@mui/material";
 import React, { useEffect } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 import DrawerList from "./DrawerList";
 import styles from "@/styles/Home.module.css";
 import ContactDialog from "../ContactDialog";
@@ -49,16 +48,13 @@ const Header: React.FC<HeaderProps> = ({ ...props }) => {
   };
 
   const [anchorEl, setAnchorEl] = React.useState<any | null>(null);
-  const popoverOpen = Boolean(anchorEl);
 
   const containerRef = React.useRef(null);
 
   const handleExpandableTabClick = (event: React.MouseEvent<any>) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleExpandableTabClose = () => {
-    setAnchorEl(null);
-  };
+
   const scrollAfterDrawerClose = React.useRef<Record<string, any> | undefined>(
     undefined
   );
